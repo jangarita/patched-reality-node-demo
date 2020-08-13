@@ -4,7 +4,6 @@ $(function () {
     $('#filesInput').on('change', () => {
         const input = $('#filesInput');
         const fileList = input.prop('files');
-
         const isValid = fileList.length > 0 && fileList[0].name.split('.').pop().toLowerCase() === 'usdz';
 
         input.next('.custom-file-label').html(isValid
@@ -26,10 +25,7 @@ $(function () {
                 $('.alert-danger').show();
 
                 setTimeout(() => {
-                    $('.alert-danger').hide();
-                    $('#uploadBtn').show();
-                    $('#filesInput').val('');
-                    $('.custom-file-label').html('Choose USDZ file');
+                    readyToUpload();
                 }, 2000);
             },
 
@@ -37,18 +33,26 @@ $(function () {
                 $('#url').attr('href', response.url).html(response.url);
                 $('#qrcode').attr('src', response.img);
                 $('#imgUrl').show();
+
                 $('.spinner-border').hide();
                 $('.alert-success').show();
 
                 setTimeout(() => {
-                    $('.alert-success').hide();
-                    $('#uploadBtn').show();
-                    $('#filesInput').val('');
-                    $('.custom-file-label').html('Choose USDZ file');
+                    readyToUpload();
                 }, 2000);
             }
         });
 
+        $('#filesInput').enable(false);
+
         return false;
     });
+
+    function readyToUpload() {
+        $('.alert-danger').hide();
+        $('.alert-success').hide();
+        $('#uploadBtn').show();
+        $('#filesInput').enable(true).val('');
+        $('.custom-file-label').html('Choose USDZ file');
+    }
 });
