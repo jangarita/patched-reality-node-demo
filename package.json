@@ -1,0 +1,24 @@
+{
+  "name": "patched-reality-node-demo",
+  "version": "1.0.0",
+  "description": "Patched Reality Node demo",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "nodemon": "nodemon src/server.js -e js,hbs,css,png,html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Johanny Angarita <joh@jangarita.com>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.10",
+    "hbs": "^4.1.1",
+    "qrcode": "^1.4.4"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.1",
+    "@types/jquery.form": "^3.26.30",
+    "eslint": "^7.6.0"
+  }
+}

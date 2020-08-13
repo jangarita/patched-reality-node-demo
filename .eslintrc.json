@@ -1,0 +1,22 @@
+{
+  "parserOptions": {
+    "sourceType": "script",
+    "ecmaFeatures": {
+      "impliedStrict": true
+    }
+  },
+  "rules": {
+    "semi": "error",
+    "quotes": [
+      2,
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ]
+  },
+  "env": {
+    "node": true,
+    "es2017": true
+  }
+}
