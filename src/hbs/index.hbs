@@ -50,14 +50,29 @@
         </div>
     </div>
 
-    <div class="row mt-3 hidden" id="imgUrl">
+    <div class="row mt-3" id="imgUrl">
         <div class="col">
             <div class="card">
-                <div class="card-body text-center">
-                    <h2>Last image uploaded</h2>
-                    <p><a id="url" href="" target="_blank">...</a></p>
-                    <img id="qrcode" src="" alt="Scan me!">
+                <div class="card-body">
+                    <h3>Last images uploaded</h3>
+                    <ul class="list-group"></ul>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="qrModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">QR Code</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="qrImg" src="" alt="Scan me!">
             </div>
         </div>
     </div>
@@ -74,6 +89,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"
         integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn"
         crossorigin="anonymous"></script>
+<script>
+    let uploads = JSON.parse(decodeURIComponent("{{{uploads}}}"));
+</script>
+<script src="js/qrcode.min.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

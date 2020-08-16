@@ -1,11 +1,22 @@
 const express = require('express');
-//const hbs = require('hbs');
 const fileUpload = require('express-fileupload');
 const path = require('path');
-const QRCode = require('qrcode');
+const redis = require('redis');
 
 const port = process.env.PORT || 3000;
+const redisHost = process.env.REDIS_HOST || '127.0.0.1';
 const app = express();
+const redisClient = redis.createClient({
+    host: redisHost
+});
+
+redisClient.on('error', function (error) {
+    console.error(`Redis error: ${error}`);
+});
+
+redisClient.on('connect', function () {
+    // console.log('Redis connected');
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload({
@@ -18,7 +29,26 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'hbs'));
 
 app.get('/', (req, res) => {
-    res.render('index');
+    let uploads = [];
+
+    redisClient.smembers('uploads', (err, values) => {
+        if (err) {
+            console.log(`Redis error: ${err}`);
+        } else {
+            // console.log(`Redis response: ${values}`);
+            uploads = encodeURIComponent(JSON.stringify(values));
+        }
+
+        res.render('index', {
+            uploads
+        });
+    });
+});
+
+app.get('/ar', (req, res) => {
+    res.render('ar', {
+        file: req.protocol + '://' + req.get('host') + '/files/' + req.query.f
+    });
 });
 
 app.post('/upload', function (req, res) {
@@ -33,10 +63,23 @@ app.post('/upload', function (req, res) {
             return res.status(500).send(err);
         }
 
-        const url = req.protocol + '://' + req.get('host') + '/files/' + file.name;
+        const url = req.protocol + '://' + req.get('host') + '/ar/?f=' + file.name;
 
-        QRCode.toDataURL(url, function (err, img) {
-            res.send({url, img});
+        redisClient.sadd('uploads', url);
+
+        let uploads = [];
+
+        redisClient.smembers('uploads', (err, values) => {
+            if (err) {
+                console.log(`Redis error: ${err}`);
+            } else {
+                // console.log(`Redis response: ${values}`);
+                uploads = values;
+            }
+
+            res.send({
+                uploads
+            });
         });
     });
 });

@@ -30,9 +30,8 @@ $(function () {
             },
 
             success: function (response) {
-                $('#url').attr('href', response.url).html(response.url);
-                $('#qrcode').attr('src', response.img);
-                $('#imgUrl').show();
+                uploads = response.uploads;
+                listUploads();
 
                 $('.spinner-border').hide();
                 $('.alert-success').show();
@@ -55,4 +54,28 @@ $(function () {
         $('#filesInput').enable(true).val('');
         $('.custom-file-label').html('Choose USDZ file');
     }
+
+    function listUploads() {
+        const ul = $('#imgUrl ul');
+
+        ul.empty();
+
+        uploads.forEach(element => {
+            ul.append(`<li class="list-group-item">
+                    <button type="button" class="qrBtn btn btn-info mr-3"
+                        data-toggle="modal" data-target="#qrModal" data-qr="${element}">QR</button>
+                    <a href="${element}" target="_blank">${element}</a>
+                </li>`);
+
+            $('.qrBtn').off('click');
+
+            $('.qrBtn').on('click', function () {
+                QRCode.toDataURL($(this).data('qr'), (err, img) => {
+                    $('#qrImg').attr('src', img);
+                });
+            });
+        });
+    }
+
+    listUploads();
 });

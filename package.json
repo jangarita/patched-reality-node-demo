@@ -12,9 +12,10 @@
   "license": "UNLICENSED",
   "dependencies": {
     "express": "^4.17.1",
-    "express-fileupload": "^1.1.10",
+    "express-fileupload": "^1.2.0",
     "hbs": "^4.1.1",
-    "qrcode": "^1.4.4"
+    "qrcode": "^1.4.4",
+    "redis": "^3.0.2"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.1",
